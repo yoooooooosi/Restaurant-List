@@ -9,7 +9,8 @@
           <input type="text" name="keyword" value="{{keyword}}" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..." value="" aria-describedby="search-button">
           <div class="input-group-append">
             <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
-            <a href="./restaurants/new">Create</a>
+            <a href="./restaurants/new" class="btn btn-secondary btn active " role="button" aria-pressed="true">建立新餐廳</a>
+            
           </div>
         </div>
       </form>
@@ -39,10 +40,12 @@
               </span>
               </div>
 
-            <div class="d-flex justify-content-evenly flex-wrap ">
+            <div class="d-flex align-items-md-baseline  justify-content-evenly flex-wrap ">
               <a href="/restaurants/{{this._id}}" class="btn btn-secondary  btn active " role="button" aria-pressed="true">詳細資訊</a>
               <a href="/restaurants/{{this._id}}/edit" class="btn btn-secondary btn active " role="button" aria-pressed="true">編輯</a>
-              <a href="/restaurants/{{this._id}}" class="btn btn-secondary  btn active " role="button" aria-pressed="true">刪除</a>
+              <form action="./restaurants/{{ this._id }}/delete" method="POST" style="display: inline;" >
+                <button type="submit" class="btn btn-secondary btn active">刪除</button>
+              </form>
             </div>
           </div>
 
