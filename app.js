@@ -4,6 +4,9 @@ const Restaurant = require("./models/restaurant"); //載入model
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose"); //載入mongoose
 const restaurantList = require("./restaurant.json");
+// 引用 body-parser
+const bodyParser = require('body-parser')
+
 
 // 加入這段 code, 僅在非正式環境時, 使用 dotenv
 if (process.env.NODE_ENV !== "production") {
@@ -37,9 +40,11 @@ app.set("view engine", "handlebars"); //
 
 //告知express靜態檔案路徑
 app.use(express.static("public")); //告知express靜態檔案放置在public資料夾中
+// 用 app.use 規定每一筆請求都需要透過 body-parser 進行前置處理
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // 設定路由
-//主頁面
+//主頁面(瀏覽根頁面)
 app.get("/", (req, res) => {
   Restaurant.find()
     .lean()
@@ -47,13 +52,55 @@ app.get("/", (req, res) => {
     .catch((error) => console.log(error));
 });
 
+//注意路由器擺放順序!!!
+
+//新增餐廳
+app.get("/restaurants/new", (req, res) => {
+  return res.render("new");
+});
+
+app.post("/restaurants",(req,res) =>{
+  const name = req.body.name; 
+  const name_en = req.body.name_en; 
+  const category = req.body.category; 
+  const image = req.body.image; 
+  const location = req.body.location; 
+  const phone = req.body.phone;   
+  const google_map = req.body.google_map; 
+  const rating = req.body.rating; 
+  const description = req.body.description; 
+
+  return Restaurant.create({
+    name,
+    name_en,
+    category,
+    image,
+    location,
+    phone,
+    google_map,
+    rating,
+    description,
+  })
+    .then(() => res.redirect("/"))
+    .catch((error) => console.log(error));
+
+
+});
+
 //內部訊息(show)
 app.get("/restaurants/:restaurant_id", (req, res) => {
-  const restaurant = restaurantList.results.find(
-    (restaurant) => restaurant.id.toString() === req.params.restaurant_id
-  ); //將restaurant.id轉為字串
-  res.render("show", { restaurant: restaurant });
+  const id = req.params.restaurant_id
+  return Restaurant.findById(id)
+    .lean()
+    .then((restaurant) => res.render("show", { restaurant }))
+    .catch((error) => console.log(error));
+  // const restaurant = restaurantList.results.find(
+  //   (restaurant) => restaurant.id.toString() === req.params.restaurant_id
+  // ); //將restaurant.id轉為字串
+  // res.render("show", { restaurant: restaurant });
 });
+
+
 
 //搜尋
 app.get("/search", (req, res) => {

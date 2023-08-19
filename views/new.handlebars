@@ -1,0 +1,98 @@
+<form  class="row g-3" action="/restaurants" method="POST">
+
+  <div class="col-md-6">
+    <div class="col-auto">
+      <label for="inputname" class="col-form-label">餐廳名稱</label>
+    </div>
+    <div class="col-auto">
+      <input type="text" placeholder="name" name="name" class="form-control" aria-describedby="passwordHelpInline">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="col-auto">
+      <label for="inputname_en" class="col-form-label">餐廳英文名稱</label>
+    </div>
+    <div class="col-auto">
+      <input type="text" placeholder="name_en" name="name_en" class="form-control" aria-describedby="passwordHelpInline">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="col-auto">
+      <label for="inputcategory" class="col-form-label">類別</label>
+    </div>
+    <div class="col-auto">
+    <select name="category" class="form-select" aria-label="Default select example">
+      <option value="中東料理">中東料理</option>
+      <option value="日本料理">日本料理</option>
+      <option value="義式餐廳">義式餐廳</option>
+      <option value="台式餐廳">台式餐廳</option>
+      <option value="美式">美式</option>
+      <option value="酒吧">酒吧</option>
+      <option value="咖啡">咖啡</option>
+    </select>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="col-auto">
+      <label for="inputimage" class="col-form-label">圖片</label>
+    </div>
+    <div class="col-auto">
+      <input type="url" placeholder="image" name="image" class="form-control" aria-describedby="passwordHelpInline">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="col-auto">
+      <label for="inputlocation" class="col-form-label">地址</label>
+    </div>
+    <div class="col-auto">
+      <input type="text" placeholder="location" name="location" class="form-control" aria-describedby="passwordHelpInline">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="col-auto">
+      <label for="inputphone" class="col-form-label">電話號碼</label>
+    </div>
+    <div class="col-auto">
+      <input type="tel" placeholder="phone" name="phone" class="form-control" aria-describedby="passwordHelpInline">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="col-auto">
+      <label for="inputgoogle_map" class="col-form-label">google_map</label>
+    </div>
+    <div class="col-auto">
+      <input type="url" placeholder="google_map" name="google_map" class="form-control" aria-describedby="passwordHelpInline">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="col-auto">
+      <label for="inputrating" class="col-form-label">排名</label>
+    </div>
+    <div class="col-auto">
+      <input type="number" placeholder="rating" name="rating" class="form-control" aria-describedby="passwordHelpInline">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="col-auto">
+      <label for="inputdescription" class="col-form-label">詳細說明</label>
+    </div>
+    <div class="col-auto">
+      <input type="text" placeholder="description" name="description" class="form-control" aria-describedby="passwordHelpInline">
+    </div>
+</div>
+
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">建立</button>
+  </div>
+
+
+</form>
+
