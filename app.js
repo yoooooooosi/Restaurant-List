@@ -6,6 +6,7 @@ const mongoose = require("mongoose"); //載入mongoose
 const restaurantList = require("./restaurant.json");
 // 引用 body-parser
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 
 
 // 加入這段 code, 僅在非正式環境時, 使用 dotenv
@@ -42,6 +43,7 @@ app.set("view engine", "handlebars"); //
 app.use(express.static("public")); //告知express靜態檔案放置在public資料夾中
 // 用 app.use 規定每一筆請求都需要透過 body-parser 進行前置處理
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'));
 
 // 設定路由
 //主頁面(瀏覽根頁面)
@@ -76,7 +78,7 @@ app.get("/restaurants/:restaurant_id/edit", (req, res) => {
     .catch((error) => console.log(error));
 });
 
-app.post("/restaurants/:restaurant_id/edit", (req,res)=>{
+app.put("/restaurants/:restaurant_id", (req,res)=>{
   //使用OObject.assign
   const id = req.params.restaurant_id;
 
@@ -103,8 +105,8 @@ app.get("/restaurants/:restaurant_id", (req, res) => {
 });
 
 //刪除餐廳
-app.post("/restaurants/:restaurant_id/delete",(req,res)=>{
-  const id = req.params.restaurant_id
+app.delete("/restaurants/:restaurant_id", (req, res) => {
+  const id = req.params.restaurant_id;
   return Restaurant.findById(id)
     .then((restaurant) => {
       restaurant.remove();
