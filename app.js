@@ -1,12 +1,10 @@
 //設定基本套件
 const express = require("express");
-const Restaurant = require("./models/restaurant"); //載入model
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose"); //載入mongoose
-const restaurantList = require("./restaurant.json");
-// 引用 body-parser
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser')// 引用 body-parser
 const methodOverride = require('method-override')
+const routes = require("./routes") // 引用路由器
 
 
 // 加入這段 code, 僅在非正式環境時, 使用 dotenv
@@ -44,89 +42,9 @@ app.use(express.static("public")); //告知express靜態檔案放置在public資
 // 用 app.use 規定每一筆請求都需要透過 body-parser 進行前置處理
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'));
+app.use(routes) // 將 request 導入路由器
 
-// 設定路由
-//主頁面(瀏覽根頁面)
-app.get("/", (req, res) => {
-  Restaurant.find()
-    .lean()
-    .then((restaurants) => res.render("index", { restaurants }))
-    .catch((error) => console.log(error));
-});
 
-//注意路由器擺放順序!!!
-
-//新增餐廳
-app.get("/restaurants/new", (req, res) => {
-  return res.render("new");
-});
-
-app.post("/restaurants",(req,res) =>{
-
-  return Restaurant.create(req.body)
-    .then(() => res.redirect("/"))
-    .catch((error) => console.log(error));
-
-});
-
-//編輯餐廳
-app.get("/restaurants/:restaurant_id/edit", (req, res) => {
-  const id = req.params.restaurant_id;
-  return Restaurant.findById(id)
-    .lean()
-    .then((restaurant) => res.render("edit", { restaurant }))
-    .catch((error) => console.log(error));
-});
-
-app.put("/restaurants/:restaurant_id", (req,res)=>{
-  //使用OObject.assign
-  const id = req.params.restaurant_id;
-
-  return Restaurant.findById(id)
-    .then((restaurant) => {
-      Object.assign(restaurant, req.body);
-      return restaurant.save();
-    })
-    .then(() => res.redirect(`/restaurants/${id}`))
-    .catch((error) => console.log(error));
-});
-
-//內部訊息(show)
-app.get("/restaurants/:restaurant_id", (req, res) => {
-  const id = req.params.restaurant_id
-  return Restaurant.findById(id)
-    .lean()
-    .then((restaurant) => res.render("show", { restaurant }))
-    .catch((error) => console.log(error));
-  // const restaurant = restaurantList.results.find(
-  //   (restaurant) => restaurant.id.toString() === req.params.restaurant_id
-  // ); //將restaurant.id轉為字串
-  // res.render("show", { restaurant: restaurant });
-});
-
-//刪除餐廳
-app.delete("/restaurants/:restaurant_id", (req, res) => {
-  const id = req.params.restaurant_id;
-  return Restaurant.findById(id)
-    .then((restaurant) => {
-      restaurant.remove();
-    })
-    .then(() => res.redirect("/"))
-    .catch((error) => console.log(error));
-});
-
-//搜尋
-app.get("/search", (req, res) => {
-  const keyword = req.query.keyword.toLocaleLowerCase();
-  const restaurants = restaurantList.results.filter((restaurant) => {
-    return (
-      restaurant.name.toLocaleLowerCase().includes(keyword) ||
-      restaurant.category.toLocaleLowerCase().includes(keyword) //為確保有英文，設定toLocaleLowerCase()將所有輸入轉乘小寫
-    );
-  }); //搜尋餐廳名稱或類別皆可
-
-  res.render("index", { restaurants: restaurants, keyword: keyword });
-});
 
 // 監聽
 app.listen(port, () => {
