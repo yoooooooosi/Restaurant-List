@@ -1,9 +1,12 @@
 # Restaurant-List 我的餐廳清單
-![image](https://github.com/yoooooooosi/Restaurant-List/blob/main/restaurant%20pic.jpg?raw=true)
+![image](https://github.com/yoooooooosi/Restaurant-List/blob/main/restaurant%20pic%20v-2.jpg?raw=true)
 # Introduction 簡介
 此網頁主要是紀錄屬於自己的餐廳清單，並可瀏覽餐廳或查看詳細資訊。
 # Function 功能
 * 查看所有餐廳
+* 新增喜歡的餐廳
+* 編輯特定的餐廳
+* 刪除特定的餐廳
 * 瀏覽餐廳的詳細資訊
 * 搜尋特定餐廳
 # Directions 使用說明
