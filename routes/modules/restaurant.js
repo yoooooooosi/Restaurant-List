@@ -3,23 +3,23 @@ const express = require("express"); //導入express 套件
 const router = express.Router(); //導入express路由器
 
 const Restaurant = require("../../models/restaurant"); //載入model
-const restaurantList = require("../../restaurant.json");
+
 
 // 設定路由 , 注意路由器擺放順序!!!
 
 //新增餐廳
-router.get("/restaurants/new", (req, res) => {
+router.get("/new", (req, res) => {
   return res.render("new");
 });
 
-router.post("/restaurants", (req, res) => {
+router.post("/", (req, res) => {
   return Restaurant.create(req.body)
     .then(() => res.redirect("/"))
     .catch((error) => console.log(error));
 });
 
 //編輯餐廳
-router.get("/restaurants/:restaurant_id/edit", (req, res) => {
+router.get("/:restaurant_id/edit", (req, res) => {
   const id = req.params.restaurant_id;
   return Restaurant.findById(id)
     .lean()
@@ -27,7 +27,7 @@ router.get("/restaurants/:restaurant_id/edit", (req, res) => {
     .catch((error) => console.log(error));
 });
 
-router.put("/restaurants/:restaurant_id", (req, res) => {
+router.put("/:restaurant_id", (req, res) => {
   //使用OObject.assign
   const id = req.params.restaurant_id;
 
@@ -41,7 +41,7 @@ router.put("/restaurants/:restaurant_id", (req, res) => {
 });
 
 //內部訊息(show)
-router.get("/restaurants/:restaurant_id", (req, res) => {
+router.get("/:restaurant_id", (req, res) => {
   const id = req.params.restaurant_id;
   return Restaurant.findById(id)
     .lean()
@@ -54,7 +54,7 @@ router.get("/restaurants/:restaurant_id", (req, res) => {
 });
 
 //刪除餐廳
-router.delete("/restaurants/:restaurant_id", (req, res) => {
+router.delete("/:restaurant_id", (req, res) => {
   const id = req.params.restaurant_id;
   return Restaurant.findById(id)
     .then((restaurant) => {
@@ -64,17 +64,6 @@ router.delete("/restaurants/:restaurant_id", (req, res) => {
     .catch((error) => console.log(error));
 });
 
-//搜尋
-router.get("/search", (req, res) => {
-  const keyword = req.query.keyword.toLocaleLowerCase();
-  const restaurants = restaurantList.results.filter((restaurant) => {
-    return (
-      restaurant.name.toLocaleLowerCase().includes(keyword) ||
-      restaurant.category.toLocaleLowerCase().includes(keyword) //為確保有英文，設定toLocaleLowerCase()將所有輸入轉乘小寫
-    );
-  }); //搜尋餐廳名稱或類別皆可
 
-  res.render("index", { restaurants: restaurants, keyword: keyword });
-});
 
 module.exports = router

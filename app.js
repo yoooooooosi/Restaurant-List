@@ -18,7 +18,7 @@ app.set("view engine", "handlebars"); //
 //告知express靜態檔案路徑
 app.use(express.static("public")); //告知express靜態檔案放置在public資料夾中
 // 用 app.use 規定每一筆請求都需要透過 body-parser 進行前置處理
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(routes) // 將 request 導入路由器
 
