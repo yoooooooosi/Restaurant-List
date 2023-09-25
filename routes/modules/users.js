@@ -58,4 +58,10 @@ router.post('/register',(req,res)=>{
     .catch((err) => console.log(err));
 })
 
+//登出表單頁面，
+router.get('/logout',(req,res)=>{
+  req.logout(); //passport.js所提供的函式，會清除 session
+  res.redirect("/users/login"); //倒回登入頁面
+})
+
 module.exports = router; //匯出路由模組
