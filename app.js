@@ -6,6 +6,9 @@ const bodyParser = require('body-parser')// 引用 body-parser
 const methodOverride = require('method-override')
 const flash = require("connect-flash") //引用Flash message
 
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 const routes = require("./routes") // 引用路由器
 require("./config/mongoose");
@@ -23,7 +26,7 @@ app.set("view engine", "handlebars"); //
 
 app.use(
   session({
-    secret: "ThisIsMySecret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
   })

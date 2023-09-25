@@ -1,6 +1,7 @@
 //passport主要用來驗證請求（request），並在成功驗證後，將用戶資訊附加到 req.user
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 const User = require('../models/user')
 const bcrypt = require("bcryptjs");
 
@@ -37,6 +38,40 @@ module.exports = (app) => {
         })
         .catch((err) => done(err, false));
     })
+  );
+
+  // 設定Facebook登入策略
+  passport.use(
+    new FacebookStrategy(
+      {
+        clientID: process.env.FACEBOOK_ID,
+        clientSecret: process.env.FACEBOOK_SECRET,
+        callbackURL: process.env.FACEBOOK_CALLBACK,
+        profileFields: ["email", "displayName"],
+      },
+      (accessToken, refreshToken, profile, done) => {
+        const { name, email } = profile._json; //解構賦值,取得_json中的name、email
+        User.findOne({ email }) //利用email去尋找
+          .then((user) => {
+            if (user) return done(null, user); //如果已有此值，則回傳資訊
+            //在model中，password勢必田，因此設置假密碼
+            const randomPassword = Math.random().toString(36).slice(-8); //沒有則建立亂數密碼
+            bcrypt
+              .genSalt(10)
+              .then((salt) => bcrypt.hash(randomPassword, salt)) //利用雜湊密碼加密
+              .then((hash) =>
+                //最後建立user
+                User.create({
+                  name,
+                  email,
+                  password: hash,
+                })
+              )
+              .then((user) => done(null, user))
+              .catch((err) => done(err, false));
+          });
+      }
+    )
   );
 
   // 設定序列化與反序列化
