@@ -9,6 +9,7 @@ if (process.env.NODE_ENV !== "production") {
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 }); //設定連線至資料庫
 
 const db = mongoose.connection; //將連線狀態存取至物件db
