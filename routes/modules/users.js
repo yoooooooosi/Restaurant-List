@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../../models/user");
+const passport = require("passport"); //載入 passport
+
 //路由設定清單
 
 //登入表單頁面 ,GET /users/login
@@ -8,8 +10,13 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.post("/login", (req, res) => { 
-});
+//主要為驗證登入狀態，當使用者在頁面點入login的按鈕時，需要利用passport所提供的authenticate來驗證可否登入
+//而passport.authenticate屬於中間層
+router.post("/login", passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/users/login",
+  })
+);
 
 
 //註冊表單頁面 ,GET /users/register

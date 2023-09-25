@@ -7,6 +7,8 @@ const methodOverride = require('method-override')
 const routes = require("./routes") // 引用路由器
 require("./config/mongoose");
 
+const usePassport = require("./config/passport"); //載入config/passport.js
+
 const app = express();
 
 //設定伺服器參數
@@ -30,6 +32,8 @@ app.use(express.static("public")); //告知express靜態檔案放置在public資
 // 用 app.use 規定每一筆請求都需要透過 body-parser 進行前置處理
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+usePassport(app) //呼叫passport中所export的function，其參數為app
+
 app.use(routes) // 將 request 導入路由器
 
 // 監聽
