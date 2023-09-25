@@ -34,6 +34,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 usePassport(app) //呼叫passport中所export的function，其參數為app
 
+//為了使view 元件可以使用Passport.js所提供套件(通常都帶在請求req裡的)，這裡使用了本地變數 res.locals，並以middleware方式
+app.use((req,res,next)=>{
+  res.locals.isAuthenticated = req.isAuthenticated(); //將登入狀態給res.locals的儲存空間，其中資料名稱為isAuthenticated
+  res.locals.user = req.user; //將使用者資料給res.locals的儲存空間
+  next()
+})
+
 app.use(routes) // 將 request 導入路由器
 
 // 監聽
