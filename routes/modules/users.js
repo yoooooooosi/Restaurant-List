@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../../models/user");
 const passport = require("passport"); //載入 passport
+const bcrypt = require("bcryptjs"); 
 
 //路由設定清單
 
@@ -69,15 +70,21 @@ router.post('/register',(req,res)=>{
         //當帳號不存在，則建立資料，並寫入資料庫
         //要記得加return
         return (
-          User.create({
-            name,
-            email,
-            password,
-          })
+          bcrypt
+            .genSalt(10)
+            .then((salt) => bcrypt.hash(password, salt))
+            .then((hash) =>
+              User.create({
+                name,
+                email,
+                password: hash,
+              })
+            )
             //建立完畢後，將頁面導向首頁
             .then(() => res.redirect("/"))
             .catch((err) => console.log(err))
         );
+        
       }
     })
     .catch((err) => console.log(err));

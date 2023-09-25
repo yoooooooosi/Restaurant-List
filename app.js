@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')// 引用 body-parser
 const methodOverride = require('method-override')
 const flash = require("connect-flash") //引用Flash message
 
+
 const routes = require("./routes") // 引用路由器
 require("./config/mongoose");
 
