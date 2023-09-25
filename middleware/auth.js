@@ -5,6 +5,7 @@ module.exports = {
     if (req.isAuthenticated()) {
       return next(); //登入成功(true)進入下一個 middleware
     }
+    req.flash("warning_msg", "請先登入才能使用！");
     res.redirect("/users/login"); //登入失敗(false)，強制返回 login 頁面
   },
 };
