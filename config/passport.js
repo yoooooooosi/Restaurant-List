@@ -2,6 +2,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require('../models/user')
+const bcrypt = require("bcryptjs");
 
 //匯出一個 function
 //app 把 passport 套件傳進來
@@ -24,13 +25,15 @@ module.exports = (app) => {
             });
           }
           //第二種情況，user的密碼或信箱錯誤
-          if (user.password !== password) {
-            return done(null, false, {
-              message: "Email or Password incorrect.",
-            });
-          }
-          //如果正確則回傳user資料
-          return done(null, user);
+          return bcrypt.compare(password, user.password).then((ismath) => {
+            if (!ismath) {
+              return done(null, false, {
+                message: "Email or Password incorrect.",
+              });
+            }
+            //如果正確則回傳user資料
+            return done(null, user);
+          });
         })
         .catch((err) => done(err, false));
     })
