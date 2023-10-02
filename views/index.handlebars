@@ -53,7 +53,7 @@
             <div class="d-flex align-items-md-baseline  justify-content-evenly flex-wrap ">
               <a href="/restaurants/{{this._id}}" class="btn btn-secondary  btn active " role="button" aria-pressed="true">詳細資訊</a>
               <a href="/restaurants/{{this._id}}/edit" class="btn btn-secondary btn active " role="button" aria-pressed="true">編輯</a>
-              <form action="./restaurants/{{ this._id }}?_method=DELETE"" method="POST" style="display: inline;" >
+              <form action="./restaurants/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('你確定要刪除嗎?')">
                 <button type="submit" class="btn btn-secondary btn active">刪除</button>
               </form>
             </div>
