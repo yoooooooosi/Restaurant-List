@@ -5,7 +5,7 @@ const userSchema = new Schema({
   //使用 new Schema() 宣告資料
   name: {
     type: String,
-    required: true,
+    required: false,
   },
   email: {
     type: String,

@@ -18,6 +18,7 @@ router.get("/", (req, res) => {
 //排序
 
 router.get("/sort", (req, res) => {
+  const userId = req.user._id;
   const sortBy = req.query.sort; //找到使用者選擇的排序方式
 
   function getSortKey() {
@@ -56,6 +57,7 @@ router.get("/sort", (req, res) => {
 
 //搜尋
 router.get("/search", (req, res) => {
+  const userId = req.user._id;
   //當輸入框為空值時，重新導入首頁
   if (!req.query.keywords) {
     res.redirect("/");

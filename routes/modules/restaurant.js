@@ -14,7 +14,7 @@ router.get("/new", (req, res) => {
 
 router.post("/", (req, res) => {
   const userId = req.user._id;
-  const data = req.body
+  const data = req.body;
   return Restaurant.create({ ...data, userId })
     .then(() => res.redirect("/"))
     .catch((error) => console.log(error));
@@ -24,6 +24,7 @@ router.post("/", (req, res) => {
 router.get("/:restaurant_id/edit", (req, res) => {
   const userId = req.user._id;
   const _id = req.params.restaurant_id;
+
   return Restaurant.findOne({ _id, userId })
     .lean()
     .then((restaurant) => res.render("edit", { restaurant }))
